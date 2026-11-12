@@ -4,21 +4,23 @@
 
 This project implements an image classification system using a custom Convolutional Neural Network (CNN) developed with TensorFlow and Keras.
 
-The model is trained on the CIFAR-10 dataset to classify color images into 10 different categories. The project covers dataset loading, image preprocessing, normalization, data augmentation, CNN architecture development, model training, evaluation, and deployment through an interactive Gradio interface.
+The model classifies images from the CIFAR-10 dataset into 10 different categories. The project covers dataset loading, preprocessing, normalization, data augmentation, CNN architecture development, model training, evaluation, and an interactive image prediction interface using Gradio.
 
-The model was trained for **30 epochs** and achieved **80.50% test accuracy**.
+The CNN was trained for **30 epochs** and achieved **80.50% test accuracy**.
 
 ## 2. Dataset Description
 
-The CIFAR-10 dataset contains 60,000 color images of size 32 × 32 pixels, distributed across 10 classes.
+The CIFAR-10 dataset consists of 60,000 color images, each with a resolution of 32 × 32 pixels, divided into 10 classes.
 
-- Total images: 60,000
-- Training images: 50,000
-- Testing images: 10,000
-- Training split: 45,000 images
-- Validation split: 5,000 images
-- Image dimensions: 32 × 32 × 3
-- Number of classes: 10
+| Dataset Details | Value |
+|---|---:|
+| Total Images | 60,000 |
+| Original Training Images | 50,000 |
+| Testing Images | 10,000 |
+| Training Split | 45,000 |
+| Validation Split | 5,000 |
+| Image Dimensions | 32 × 32 × 3 |
+| Number of Classes | 10 |
 
 ### CIFAR-10 Classes
 
@@ -33,9 +35,9 @@ The CIFAR-10 dataset contains 60,000 color images of size 32 × 32 pixels, distr
 9. Ship
 10. Truck
 
-The original CIFAR-10 Python archive is stored in the project's `data/` directory.
+The original CIFAR-10 Python dataset archive is stored in the `data/` directory.
 
-## 3. Technologies and Libraries
+## 3. Technologies Used
 
 - Python
 - TensorFlow
@@ -52,13 +54,13 @@ The original CIFAR-10 Python archive is stored in the project's `data/` director
 ## 4. Project Structure
 
 ```text
-cifar10/
+cifar10_using_cnn/
 │
 ├── data/
 │   └── cifar-10-python.tar.gz
 │
 ├── model/
-│   └── cifar10modal(1).keras
+│   └── cifar10modal.keras
 │
 ├── outputs/
 │   ├── confusion_matrix.png
@@ -79,31 +81,31 @@ cifar10/
 |---|---|
 | `data/` | Contains the original CIFAR-10 compressed dataset. |
 | `model/` | Contains the trained CNN model in Keras format. |
-| `outputs/` | Contains the confusion matrix and training/validation performance graphs. |
+| `outputs/` | Stores the confusion matrix and training/validation graphs. |
 | `src/` | Contains the Jupyter Notebook with the complete implementation. |
 | `requirements.txt` | Lists the required Python libraries. |
-| `README.md` | Provides project documentation and execution instructions. |
+| `README.md` | Contains project documentation and execution instructions. |
 | `.gitignore` | Specifies files and folders excluded from Git tracking. |
 
 ## 5. Data Loading and Preprocessing
 
-The CIFAR-10 dataset was loaded from its Python batch files after extracting the downloaded archive.
+The CIFAR-10 dataset was loaded from its extracted Python batch files using Python Pickle.
 
-The following preprocessing steps were performed:
+The following preprocessing operations were performed:
 
-1. Extracted the CIFAR-10 dataset archive.
-2. Loaded the training and testing batches using Python Pickle.
+1. Uploaded and extracted the CIFAR-10 dataset archive.
+2. Loaded the five training batches and the separate test batch.
 3. Reshaped the images into 32 × 32 × 3 format.
-4. Displayed 10 randomly selected images with their corresponding class labels.
+4. Displayed 10 randomly selected images with their class labels.
 5. Divided the original training dataset into training and validation sets.
-6. Converted image data into floating-point format.
-7. Calculated the mean and standard deviation using the training dataset.
-8. Normalized training, validation, and testing images using the training statistics.
+6. Converted image values into floating-point format.
+7. Calculated the mean and standard deviation from the training images.
+8. Normalized the training, validation, and testing images.
 9. Converted class labels into one-hot encoded format.
 
 ### Dataset Split
 
-| Dataset | Number of Images |
+| Dataset | Images |
 |---|---:|
 | Training | 45,000 |
 | Validation | 5,000 |
@@ -111,7 +113,7 @@ The following preprocessing steps were performed:
 
 ## 6. Data Augmentation
 
-Data augmentation was applied to increase image variation and improve the model's ability to generalize to unseen images.
+Data augmentation was applied to improve the model's ability to generalize to unseen images and reduce overfitting.
 
 The following techniques were used:
 
@@ -124,7 +126,7 @@ The following techniques were used:
 - Shear transformation
 - Channel shifting
 
-These transformations help the model learn different image variations and reduce overfitting.
+These transformations introduce variations into training images so that the CNN can learn more robust image features.
 
 ## 7. CNN Model Architecture
 
@@ -139,27 +141,29 @@ A custom CNN architecture consisting of four convolutional blocks was developed.
 | Block 3 | 128, 128 | 0.4 |
 | Block 4 | 256, 256 | 0.5 |
 
-Each convolutional block contains:
+Each convolutional block consists of:
 
-- Conv2D layers for feature extraction
-- Batch Normalization for stable training
-- ReLU activation for non-linearity
-- Max Pooling for spatial downsampling
-- Dropout for reducing overfitting
+- Conv2D layers for feature extraction.
+- Batch Normalization for stable training.
+- ReLU activation for introducing non-linearity.
+- Max Pooling for spatial downsampling.
+- Dropout for reducing overfitting.
 
-### Classification Layer
+### Final Classification Layer
 
-After the four convolutional blocks:
+After the convolutional blocks:
 
 - Flatten converts feature maps into a one-dimensional vector.
 - Dense layer with 10 neurons performs classification.
-- Softmax activation generates class probabilities for the 10 CIFAR-10 categories.
+- Softmax activation generates probabilities for the 10 CIFAR-10 classes.
 
 L2 regularization was applied to convolutional layers to help control overfitting.
 
-## 8. Model Training Configuration
+## 8. Model Training
 
-The model was trained using TensorFlow and Keras with the following configuration:
+The CNN model was trained using TensorFlow and Keras.
+
+### Training Configuration
 
 | Parameter | Value |
 |---|---|
@@ -175,7 +179,7 @@ The model was trained using TensorFlow and Keras with the following configuratio
 
 ### Training Callbacks
 
-Three callbacks were implemented to improve the training process.
+Three callbacks were used during model training.
 
 **1. ModelCheckpoint**
 
@@ -201,7 +205,7 @@ The training run completed 30 epochs. The highest validation accuracy was record
 
 ## 9. Model Evaluation and Results
 
-After training, the best saved model was evaluated on the separate CIFAR-10 test dataset containing 10,000 images.
+The best saved model was evaluated using the separate CIFAR-10 test dataset containing 10,000 images.
 
 ### Performance Results
 
@@ -214,17 +218,17 @@ After training, the best saved model was evaluated on the separate CIFAR-10 test
 | Test Accuracy | **80.50%** |
 | Test Loss | 0.6802 |
 
-### Evaluation Methods
+### Evaluation Techniques
 
-The model was evaluated using:
+The following evaluation methods were used:
 
-- Training and validation accuracy curves
-- Training and validation loss curves
-- Confusion matrix
-- Classification report
-- Test dataset evaluation
+- Training and validation accuracy curves.
+- Training and validation loss curves.
+- Confusion matrix.
+- Classification report.
+- Test dataset evaluation.
 
-The generated training graphs and confusion matrix are stored in the `outputs/` directory.
+The generated performance graphs and confusion matrix are available in the `outputs/` directory.
 
 ## 10. Model Saving
 
@@ -234,9 +238,13 @@ The trained CNN model was saved in Keras format:
 model/cifar10modal.keras
 ```
 
-The notebook also saves preprocessing statistics, including the training dataset's mean and standard deviation, for consistent normalization during prediction.
+The notebook also saves the preprocessing statistics (mean and standard deviation) in:
 
-These statistics are required when using the saved model outside the original notebook.
+```text
+cifar10_preprocessing.npz
+```
+
+These statistics are required to normalize new images consistently with the training data when using the saved model for predictions.
 
 ## 11. Gradio Image Classification Interface
 
@@ -255,42 +263,136 @@ An interactive image classification interface was developed using Gradio inside 
 The Gradio interface is launched using:
 
 ```python
-demo.launch(share=True)
+app.launch(share=True)
 ```
 
 This generates a shareable link through which users can test the image classification system.
 
-## 12. Installation and Execution
+## 12. How to Run the Project
 
-### Step 1: Clone the Repository
+The model has already been trained and saved. You do not need to train it again to use the prediction interface.
 
-```bash
-git clone <your-github-repository-url>
-cd cifar10
+The following steps explain how to load the dataset, load the saved model, and launch Gradio in Google Colab.
+
+### Step 1: Open the Notebook
+
+Open:
+
+```text
+src/cifar_10_updated.ipynb
 ```
 
-### Step 2: Create a Virtual Environment
+Upload the notebook to Google Colab.
 
-```bash
-python3 -m venv venv
-source venv/bin/activate
+### Step 2: Import Required Libraries
+
+Run the first two import cells to import NumPy, TensorFlow, Matplotlib, Pickle, OS, and the other required libraries.
+
+### Step 3: Upload the CIFAR-10 Dataset
+
+Run the dataset upload cell and select:
+
+```text
+cifar-10-python.tar.gz
 ```
 
-### Step 3: Install Dependencies
+### Step 4: Extract the Dataset
 
-```bash
-pip install -r requirements.txt
+Run the following cells in order:
+
+- Get the uploaded archive filename.
+- Extract the dataset archive.
+- Set the dataset directory path.
+- Define the `load_batch()` function.
+- Load and combine the five training batches and the test batch.
+
+### Step 5: Define Class Names
+
+Run the cell containing:
+
+```python
+class_names = [...]
 ```
 
-### Step 4: Open the Jupyter Notebook
+This defines the ten CIFAR-10 category names.
 
-```bash
-jupyter notebook src/cifar_10_updated.ipynb
+### Step 6: Prepare the Dataset
+
+Run the following cells:
+
+- Training and validation split.
+- Image conversion and normalization.
+
+**Important:** Use the same training mean and standard deviation saved during the original training. If you have saved them in `cifar10_preprocessing.npz`, load those values rather than calculating new statistics.
+
+### Step 7: Upload the Trained Model
+
+Run the model upload cell and select:
+
+```text
+cifar10modal.keras
 ```
 
-Run the notebook cells to perform dataset loading, preprocessing, model training, evaluation, and Gradio interface execution.
+### Step 8: Install Gradio
 
-**Note:** Model training was performed in Google Colab using a T4 GPU. The saved model can be reused for predictions without repeating the training process. The preprocessing statistics must also be available to reproduce the same input normalization.
+Run:
+
+```python
+!pip install -q gradio
+```
+
+### Step 9: Import Gradio
+
+Run the cell containing:
+
+```python
+import gradio as gr
+```
+
+### Step 10: Define the Prediction Function
+
+Run the cell containing:
+
+```python
+def predict_image(image):
+```
+
+This function preprocesses the uploaded image and generates predictions using the trained CNN model.
+
+### Step 11: Create the Gradio Interface
+
+Run the cell containing:
+
+```python
+app = gr.Interface(...)
+```
+
+This creates the image-upload interface and prediction outputs.
+
+### Step 12: Launch the Application
+
+Run:
+
+```python
+app.launch(share=True)
+```
+
+A shareable Gradio link will be generated.
+
+Open the link, upload an image, and view the predicted CIFAR-10 category with its confidence scores.
+
+### Important: Cells to Skip
+
+Since the model has already been trained, **do not run the following training-related cells again**:
+
+- Data augmentation configuration.
+- CNN model building.
+- Model compilation.
+- Training callbacks.
+- `model.fit()` training cell.
+- Training-history plotting cells, unless you want to regenerate the graphs.
+
+You only need the dataset and preprocessing setup, saved model loading, prediction function, and Gradio interface to demonstrate the project.
 
 ## 13. Conclusion
 
@@ -300,4 +402,4 @@ It combines image preprocessing, normalization, data augmentation, convolutional
 
 The model was trained for **30 epochs** and achieved **80.50% test accuracy**. An interactive Gradio interface was also implemented to allow users to upload images and view classification predictions.
 
-The project demonstrates the complete workflow of building, training, evaluating, and testing a deep learning image classification model.
+The project demonstrates the complete workflow of developing, training, evaluating, and using a deep learning image classification model.
