@@ -58,7 +58,7 @@ cifar10/
 │   └── cifar-10-python.tar.gz
 │
 ├── model/
-│   └── cifar10modal.keras
+│   └── cifar10modal(1).keras
 │
 ├── outputs/
 │   ├── confusion_matrix.png
